@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <link rel="icon" type="images/png" href="https://cdn-icons-png.flaticon.com/512/6681/6681204.png">
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+    body {
+      background: linear-gradient(to right, blue, pink);
+    }
+    h1 {
+      font-size: 50px;
+    }
+    button {
+      background: white;
+      border-radius: 15px;
+      align-self: center;
+      border-color: white;
+      border-width: 1px;
+      margin-top: 100%;
+    }
+    .main {
+      background-color: rgb(173, 173, 173);
+      width: 150px;
+      height: 250px;
+      border-radius: 20px;
+      margin-top: 10px;
+      display: grid;
+      justify-content: center;
+      align-items: center;
+    }
+    input {
+      width: 100px;
+      height: 8px;
+      font-size: 10px;
+      border-radius: 20px;
+      border-width: 0px;
+    }
+    #login {
+      width: 80px;
+      height: 20px;
+      border-radius: 15px;
+    }
+  </style>
+</head>
+<body style="display: flex; justify-content: center; align-items: center;">
+
+  <form method="get" action="" class="main">
+    <label> <input id="userId" type="text" name="user" placeholder="id"></label>
+    <label> <input id="userPassword" type="password" name="pass" placeholder="password"></label>
+    <input type="submit" value="로그인" id="login" onclick="">
+    <h3 id="text_login"></h3>
+  </form>
+
+  <script>
+    const login_ = document.getElementById("text_login");
+    let is_login = false;
+
+    let id = 'admin';
+    let password = 1234;
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const user = urlParams.get('user');
+    const pass = urlParams.get('pass');
+
+    function getCookie(name) {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      console.log(parts);
+      if (parts.length === 2) {
+        return parts.pop().split(';').shift();
+      }
+      return null;
+    }
+
+    window.onload = function() {
+      // 아이디와 비밀번호 확인 시스템
+      if((user!="" || pass!="") && user!=null) {
+        if(user==id) {
+          if(pass==password) { // 로그인 성공
+            is_login = true;
+            document.cookie = "is_login=true; path=/";
+          } else { // 로그인 실패
+              login_.textContent = "비밀번호 오류";
+              document.cookie = "is_login=false; path=/";
+            }
+          } else { // 로그인 실패
+          login_.textContent = "아이디 오류";
+          document.cookie = "is_login=false; path=/";
+        }
+      }
+      
+      if(getCookie('is_login') == 'true') {
+        login_.textContent = "로그인  성공";
+        alert('로그인성공');
+      }
+    }
+  </script>
+</body>
+</html>
